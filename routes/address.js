@@ -4,7 +4,6 @@ var router = express.Router();
 // BL
 const addressBL = require("./../bl/address");
 
-/* GET users listing. */
 router.get("/geocode", async function(req, res, next) {
   const address = req.query.address;
   try {

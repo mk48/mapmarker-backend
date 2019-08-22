@@ -16,7 +16,8 @@ async function GeoCode(address) {
       //return the lat+lng of the address
       return { lat: data[0].lat, lng: data[0].lon };
     } else {
-      throw new Error("Place not found");
+      // if address not found then return null
+      return null;
     }
   } catch (err) {
     throw err;

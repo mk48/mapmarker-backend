@@ -1,6 +1,12 @@
 const addressGoogle = require("./address-google");
 const addressOSM = require("./address-open-street-map");
 
+/**
+ * Get Geocode from an address
+ *
+ * @param {*} address
+ * @returns {lat: ###, lng: ###}
+ */
 async function GeoCode(address) {
   let result = {};
   await GeoCodeOSM(address, result);
@@ -19,32 +25,51 @@ async function GeoCode(address) {
   }
 }
 
-//============================ Private functions =============
+//=============================================== Private functions ===============================================
+/**
+ * get Geo code from google
+ *
+ * @param {*} address
+ * @param {*} result.data will have the lat/lng. result.success is boolean having it's success or fail info
+ */
 async function GeoCodeGoogle(address, result) {
-  console.log("get geocode from Google");
   try {
-    result = await addressGoogle.GeoCode(address);
+    result.data = await addressGoogle.GeoCode(address);
 
     // check any err in google reply
-    if (result.error_message) {
-      throw new Error(result.error_message);
+    if (result.data.error_message) {
+      throw new Error(result.data.error_message);
     }
 
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-
-async function GeoCodeOSM(address, result) {
-  console.log("get geocode from osm");
-  try {
-    result.data = await addressOSM.GeoCode(address);
     result.success = true;
   } catch (err) {
     result.success = false;
   }
 }
+
+/**
+ * get Geo code from Open street map
+ *
+ * @param {*} address
+ * @param {*} result.data will have the lat/lng. result.success is boolean having it's success or fail info
+ */
+async function GeoCodeOSM(address, result) {
+  try {
+    const osmResponse = await addressOSM.GeoCode(address);
+
+    if (osmResponse) {
+      result.data = { addressFound: true, ...osmResponse };
+    } else {
+      result.data = { addressFound: false };
+    }
+
+    result.success = true;
+  } catch (err) {
+    result.success = false;
+  }
+}
+
+//=============================================== Export ===============================================
 
 module.exports = {
   GeoCode: GeoCode
