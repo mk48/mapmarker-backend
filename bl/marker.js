@@ -1,6 +1,16 @@
 // keep all the marker info in-memory array
 let markers = [];
 
+// =============================================== GetAll() ==========================================
+/**
+ * Get all markers
+ *
+ * @returns marker object
+ */
+function GetAll() {
+  return markers;
+}
+
 // =============================================== Get() ==========================================
 /**
  * Get a particular marker
@@ -50,12 +60,14 @@ function Update(id, updatedMarkerProperties) {
 // =============================================== Delete ==========================================
 function Delete(id) {
   markers = markers.filter(marker => marker.id !== id);
+  console.dir(markers);
 }
 
 // =============================================== Export ==========================================
 
 module.exports = {
   Get: Get,
+  GetAll: GetAll,
   Insert: Insert,
   Update: Update,
   Delete: Delete

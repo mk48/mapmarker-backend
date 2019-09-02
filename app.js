@@ -6,6 +6,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var addressRouter = require("./routes/address");
+var markerRouter = require("./routes/marker");
 
 //read environment variables
 require("dotenv").config();
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/address", addressRouter);
+app.use("/marker", markerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
